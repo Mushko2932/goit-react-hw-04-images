@@ -1,13 +1,13 @@
-import { Component, useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import Notiflix from 'notiflix';
-import { GlobalStyle } from "components/GlobalStyle";
-import { ImageGallery } from "components/ImageGallery/ImageGallery";
-import { SearchBar } from "components/Searchbar/Searchbar";
-import { fetchImgList } from "services/Api";
-import { Loader } from "components/Loader/Loader";
-import { Button } from "components/Button/Button";
-import { Modal } from "components/Modal/Modal";
-import { Container } from "./App.styled";
+import { GlobalStyle } from 'components/GlobalStyle';
+import { ImageGallery } from 'components/ImageGallery/ImageGallery';
+import { SearchBar } from 'components/Searchbar/Searchbar';
+import { fetchImgList } from 'services/Api';
+import { Loader } from 'components/Loader/Loader';
+import { Button } from 'components/Button/Button';
+import { Modal } from 'components/Modal/Modal';
+import { Container } from './App.styled';
 
 export const App = () => {
   const [search, setSearch] = useState('');
@@ -16,7 +16,7 @@ export const App = () => {
   const [total, setTotal] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [modal, setModal] = useState({largeImageURL: ''});
+  const [modal, setModal] = useState({ largeImageURL: '' });
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -42,16 +42,16 @@ export const App = () => {
       Notiflix.Notify.warning(warningMessage);
       return;
     }
-      try {
-        if (searchQuery === search) {
-          return;
-        }
-        setSearch(searchQuery);
-        setPage(1);
-        setImages([]);
-      } catch (error) {
-        console.log('error :>> ', error);
-      } 
+    try {
+      if (searchQuery === search) {
+        return;
+      }
+      setSearch(searchQuery);
+      setPage(1);
+      setImages([]);
+    } catch (error) {
+      console.log('error :>> ', error);
+    }
   };
 
   const handleImgClick = largeImageURL => {
@@ -60,7 +60,7 @@ export const App = () => {
   };
 
   const loadMore = () => {
-    setPage(prevState => prevState.page + 1,);
+    setPage(prevState => prevState.page + 1);
   };
 
   const toggleModal = () => {
@@ -70,19 +70,19 @@ export const App = () => {
     }));
   };
 
-    return (
-      <Container>
-        <SearchBar onSubmit={handleSubmit} />
-        {images.length > 0 && (
-          <ImageGallery items={images} toggleModal={handleImgClick} />
-        )}
-        {isLoading && <Loader />}
-        {error && <p>Help...</p>}
-        {total / 12 > page && <Button onClick={loadMore} />}
-        {showModal && (
-          <Modal onClose={toggleModal} largeImageURL={modal.largeImageURL} />
-        )}
-        <GlobalStyle />
-      </Container>
-    );
+  return (
+    <Container>
+      <SearchBar onSubmit={handleSubmit} />
+      {images.length > 0 && (
+        <ImageGallery items={images} toggleModal={handleImgClick} />
+      )}
+      {isLoading && <Loader />}
+      {error && <p>Help...</p>}
+      {total / 12 > page && <Button onClick={loadMore} />}
+      {showModal && (
+        <Modal onClose={toggleModal} largeImageURL={modal.largeImageURL} />
+      )}
+      <GlobalStyle />
+    </Container>
+  );
 };
