@@ -13,9 +13,8 @@ export const App = () => {
   const [search, setSearch] = useState('');
   const [images, setImages] = useState([]);
   const [page, setPage] = useState(0);
-  // const [total, setTotal] = useState(0);
+  const [lastPage, setLastPage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  // const [showModal, setShowModal] = useState(false);
   const [noImg, setNoImg] = useState(false);
   const [modal, setModal] = useState({
     showModal: false,
@@ -25,6 +24,7 @@ export const App = () => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
+    if (page === 0) return;
     async function getPhoto(searchQuery) {
       try {
         setIsLoading(true);
@@ -32,7 +32,7 @@ export const App = () => {
         setNoImg(false);
         const fetchedImg = await fetchImgList(searchQuery, page);
         setImages(prevState => [...prevState, ...fetchedImg.hits]);
-        setPage(1);
+        setLastPage(Math.ceil(fetchedImg.totalHits / 12));
         fetchedImg.totalHits === 0 && setNoImg(true);
       } catch (error) {
         console.log('error :>> ', error);
@@ -78,7 +78,7 @@ export const App = () => {
   };
 
   const loadMore = () => {
-    setPage(prevState => prevState.page + 1);
+    setPage(prevState => prevState + 1);
   };
 
   return (
@@ -89,7 +89,7 @@ export const App = () => {
       )}
       {isLoading && <Loader />}
       {error && <p>Help...{error.message}</p>}
-      {!isLoading && <Button onClick={loadMore} />}
+      {page < lastPage && <Button onClick={loadMore} />}
       {modal.showModal && (
         <Modal
           onClose={toggleModal}
