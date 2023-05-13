@@ -13,9 +13,9 @@ export const App = () => {
   const [search, setSearch] = useState('');
   const [images, setImages] = useState([]);
   const [page, setPage] = useState(0);
-  const [total, setTotal] = useState(0);
+  // const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
   const [noImg, setNoImg] = useState(false);
   const [modal, setModal] = useState({
     showModal: false,
